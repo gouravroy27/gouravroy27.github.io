@@ -208,8 +208,14 @@
        4. HERO SECTION (`whoami`)
        ========================================================================== */
     .hero {
-      margin-bottom: 2rem;
-      overflow: hidden;
+      margin-bottom: 2.2rem;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      display: block;
+      clear: both;
     }
 
     /* Shared art element styles */
@@ -237,8 +243,8 @@
 
     .art.falling {
       float: right;
-      width: clamp(5.5rem, 26%, 10rem);
-      margin: 0.2rem 0 0.6rem 1.4rem;
+      width: clamp(6.5rem, 28%, 10.5rem);
+      margin: 0.1rem 0 0.8rem 1.4rem;
       display: block;
     }
 
@@ -860,12 +866,12 @@
     <main>
       <!-- HERO SECTION (`whoami`) -->
       <section class="hero">
+        <img class="art falling ink"
+             src="./assets/art/reaper.png"
+             alt="Fallen figure"
+             loading="eager"
+             fetchpriority="high">
         <p class="bio">
-          <img class="art falling ink"
-               src="./assets/art/falling.webp"
-               alt=""
-               loading="eager"
-               fetchpriority="high">
           hey, I'm Gourav — a systems engineer who finds it hard to stop at "just make it work." I build multi-service container stacks, network proxy engines, and zero-overhead CLI tools for headless Linux environments. This is where I write down what I built, why I built it, and what broke along the way.
         </p>
 
@@ -892,8 +898,8 @@
       <!-- MID-PAGE WINGS DIVIDER -->
       <div class="divider" aria-hidden="true">
         <img class="art wings ink"
-             src="./assets/art/wings.webp"
-             alt=""
+             src="./assets/art/wings.png"
+             alt="Angel wings"
              loading="lazy">
       </div>
 
