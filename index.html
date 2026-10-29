@@ -1,0 +1,1340 @@
+<!doctype html>
+<html lang="en" data-theme="suede">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" id="theme-color" content="#18070b">
+
+  <title>gourav roy · systems & monographs</title>
+  <meta name="description" content="personal monograph and systems portfolio of gourav roy: network proxy gateways, low-latency cli utilities, and autonomous agent architectures.">
+  <link rel="canonical" href="https://gouravroy27.github.io/">
+
+  <!-- Google Fonts: Instrument Serif, JetBrains Mono, Shantell Sans with Variable Axes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Shantell+Sans:ital,wght,BNCE,INFM@0,300..800,0..100,0..100;1,300..800,0..100,0..100&display=swap" rel="stylesheet">
+
+  <script>
+    (function () {
+      const KEY = "gourav-theme";
+      const root = document.documentElement;
+      let saved = null;
+      try { saved = localStorage.getItem(KEY); } catch (e) {}
+      
+      const theme = saved || "suede";
+      root.setAttribute("data-theme", theme);
+      const meta = document.getElementById("theme-color");
+      if (meta) {
+        meta.setAttribute("content", theme === "suede" ? "#18070b" : "#fbf8f3");
+      }
+    })();
+  </script>
+
+  <style>
+    /* ==========================================================================
+       1. VARIABLES & PALETTES ("Burgundy Suede Monograph")
+       ========================================================================== */
+    :root,
+    [data-theme="suede"] {
+      color-scheme: dark;
+      --bg-primary: #18070b;      /* Deep oxblood / dark burgundy suede */
+      --bg-elevated: #240c12;     /* Subtle wine surface with warmth */
+      --text-primary: #f4ebe6;    /* Crisp warm parchment / ivory cream */
+      --text-muted: #b8989c;      /* Muted dusty rose-taupe */
+      --accent: #d94e5a;          /* Crimson highlight for hover/active */
+      --border: #3d1720;          /* Subtle burgundy hairline border */
+      --border-strong: #591e2b;
+      --cover-bg: #1f0a10;
+      --cover-edge: #421622;
+      --tag-bg: #2b0e15;
+      --modal-overlay: rgba(12, 3, 5, 0.82);
+      --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.65), 0 1px 2px rgba(0, 0, 0, 0.4);
+      --art-filter: invert(1) contrast(115%) sepia(35%) hue-rotate(315deg) brightness(0.92);
+      --art-blend: normal;
+      --art-opacity: 0.90;
+    }
+
+    [data-theme="paper"] {
+      color-scheme: light;
+      --bg-primary: #fbf8f3;      /* Warm archival paper */
+      --bg-elevated: #f2ece1;     /* Muted cream card surface */
+      --text-primary: #2b0910;    /* Deep oxblood ink */
+      --text-muted: #7a4e56;      /* Muted wine */
+      --accent: #8c1d2c;          /* Rich burgundy accent */
+      --border: #dfd3c3;          /* Archival page border */
+      --border-strong: #c8b9a5;
+      --cover-bg: #f5eee2;
+      --cover-edge: #d8c7b0;
+      --tag-bg: #eae0d0;
+      --modal-overlay: rgba(247, 243, 236, 0.88);
+      --card-shadow: 0 12px 30px -12px rgba(74, 18, 27, 0.15), 0 1px 3px rgba(74, 18, 27, 0.08);
+      --art-filter: grayscale(100%) contrast(125%) sepia(40%) hue-rotate(320deg);
+      --art-blend: multiply;
+      --art-opacity: 0.85;
+    }
+
+    /* Strict Three-Font Typography */
+    :root {
+      --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+      --font-hand: 'Shantell Sans', cursive;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+      --ease: cubic-bezier(0.22, 0.7, 0.2, 1);
+      --measure: 680px;
+    }
+
+    /* ==========================================================================
+       2. RESET & BASE STYLES
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-serif);
+      line-height: 1.5;
+      min-height: 100vh;
+      position: relative;
+      transition: background-color 300ms var(--ease), color 300ms var(--ease);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Ultra-subtle Suede Grain Texture Overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.032;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Layout Container */
+    .container {
+      max-width: var(--measure);
+      margin: 0 auto;
+      padding: 2.8rem 1.5rem 4.5rem;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 180ms var(--ease), border-color 180ms var(--ease);
+    }
+
+    /* ==========================================================================
+       3. HEADER & MINIMALIST NAVIGATION
+       ========================================================================== */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2.6rem;
+      padding-bottom: 0.8rem;
+    }
+
+    .site-title {
+      font-family: var(--font-serif);
+      font-size: 1.55rem;
+      font-style: italic;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      transition: color 200ms var(--ease);
+    }
+
+    .site-title:hover {
+      color: var(--accent);
+    }
+
+    nav {
+      display: flex;
+      align-items: baseline;
+      gap: 1.1rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    nav a {
+      color: var(--text-muted);
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 200ms var(--ease);
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .theme-toggle span.badge {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       4. HERO SECTION (`whoami`)
+       ========================================================================== */
+    .hero {
+      margin-bottom: 2.4rem;
+    }
+
+    /* Classical Doré / Engraving Artwork */
+    .hero-art-wrapper {
+      margin-bottom: 1.8rem;
+      overflow: hidden;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      max-height: 340px;
+    }
+
+    .art {
+      display: block;
+      width: 100%;
+      height: auto;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+      filter: var(--art-filter);
+      mix-blend-mode: var(--art-blend);
+      opacity: var(--art-opacity);
+      transition: filter 300ms var(--ease), opacity 300ms var(--ease);
+    }
+
+    .hero-banner {
+      width: 100%;
+      max-height: 340px;
+      object-fit: cover;
+      object-position: center 25%;
+    }
+
+    /* Intro Bio Paragraph */
+    .bio {
+      font-family: var(--font-serif);
+      font-size: clamp(1.35rem, 1.2rem + 0.8vw, 1.55rem);
+      line-height: 1.45;
+      letter-spacing: 0.01em;
+      color: var(--text-primary);
+      margin-bottom: 1.8rem;
+    }
+
+    /* Structured Metadata `<dl>` */
+    .facts {
+      display: grid;
+      gap: 0.55rem;
+      margin-top: 1.2rem;
+      font-size: 0.95rem;
+    }
+
+    .facts div {
+      display: grid;
+      grid-template-columns: minmax(6.2rem, 7.8rem) 1fr;
+      align-items: baseline;
+      gap: 0.6rem;
+    }
+
+    .facts dt {
+      font-family: var(--font-hand);
+      font-variation-settings: "BNCE" 45, "INFM" 55;
+      color: var(--text-muted);
+      font-size: 0.98rem;
+    }
+
+    .facts dd {
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      color: var(--text-primary);
+      line-height: 1.45;
+    }
+
+    /* ==========================================================================
+       5. MID-PAGE CLASSICAL DIVIDER
+       ========================================================================== */
+    .divider {
+      margin: 2.5rem auto 3rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 1rem;
+    }
+
+    .divider .art.wings {
+      max-width: min(100%, 28rem);
+      height: auto;
+      opacity: 0.75;
+    }
+
+    /* ==========================================================================
+       6. SECTION HEADERS & LABELS
+       ========================================================================== */
+    section {
+      margin-bottom: 3.2rem;
+    }
+
+    section:last-of-type {
+      margin-bottom: 2.4rem;
+    }
+
+    .section-label {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin: 0 0 0.85rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid var(--border-strong);
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+    }
+
+    .section-label sup.counter {
+      font-family: var(--font-hand);
+      font-variation-settings: "BNCE" 60, "INFM" 70;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-left: 0.25rem;
+    }
+
+    /* ==========================================================================
+       7. SECTION 1: WRITING LIST (Dotted Border Rows)
+       ========================================================================== */
+    ul.rows {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    ul.rows li {
+      border-bottom: 1px dotted var(--border);
+    }
+
+    ul.rows .row-link {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1.4rem;
+      padding: 0.78rem 0;
+      color: var(--text-primary);
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      font-size: inherit;
+      transition: padding-left 240ms var(--ease), color 180ms var(--ease);
+    }
+
+    ul.rows .row-link:hover {
+      color: var(--accent);
+      padding-left: 0.35rem;
+    }
+
+    ul.rows .title-text {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      line-height: 1.35;
+      background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+      transition: background-size 320ms var(--ease);
+    }
+
+    ul.rows .row-link:hover .title-text {
+      background-size: 100% 1px;
+    }
+
+    ul.rows .meta-date,
+    ul.rows .meta-tag {
+      flex: none;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      transition: color 180ms var(--ease);
+    }
+
+    ul.rows .row-link:hover .meta-date,
+    ul.rows .row-link:hover .meta-tag {
+      color: var(--accent);
+    }
+
+    /* ==========================================================================
+       8. SECTION 2: FEATURED BUILDS (Monograph Covers Showcase)
+       ========================================================================== */
+    .builds-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .build-card {
+      display: grid;
+      grid-template-columns: 8.5rem 1fr;
+      gap: 1.6rem;
+      align-items: start;
+      padding: 1.3rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      transition: transform 300ms var(--ease), box-shadow 300ms var(--ease), border-color 300ms var(--ease);
+    }
+
+    .build-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--card-shadow);
+      border-color: var(--border-strong);
+    }
+
+    /* Typographic Monograph Cover Box */
+    .monograph-cover {
+      background: var(--cover-bg);
+      border: 1px solid var(--cover-edge);
+      border-radius: 3px;
+      padding: 0.9rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      aspect-ratio: 1 / 1.38;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+      transition: transform 320ms var(--ease);
+    }
+
+    .build-card:hover .monograph-cover {
+      transform: rotate(-0.8deg) scale(1.02);
+    }
+
+    .monograph-cover::before {
+      content: "";
+      position: absolute;
+      left: 0.35rem;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+      opacity: 0.6;
+    }
+
+    .cover-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      border-bottom: 1px dashed var(--border);
+      padding-bottom: 0.3rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .cover-title {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      line-height: 1.15;
+      font-style: italic;
+      color: var(--text-primary);
+      margin: auto 0;
+      text-align: center;
+    }
+
+    .cover-bottom {
+      border-top: 1px dashed var(--border);
+      padding-top: 0.35rem;
+      font-family: var(--font-hand);
+      font-variation-settings: "BNCE" 70, "INFM" 80;
+      font-size: 0.72rem;
+      color: var(--accent);
+      text-align: right;
+    }
+
+    /* Project Details Column */
+    .build-content h3 {
+      font-family: var(--font-serif);
+      font-size: 1.38rem;
+      line-height: 1.25;
+      margin-bottom: 0.35rem;
+      color: var(--text-primary);
+    }
+
+    .build-content .subtitle {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+      margin-bottom: 0.65rem;
+    }
+
+    .build-content .meta {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+    }
+
+    .build-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.7rem 1.1rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+    }
+
+    .action-link {
+      color: var(--text-primary);
+      background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+      transition: background-size 260ms var(--ease), color 180ms var(--ease);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .action-link:hover {
+      color: var(--accent);
+      background-size: 100% 1px;
+    }
+
+    .action-link span.tag-bracket {
+      color: var(--accent);
+      font-size: 0.75rem;
+    }
+
+    /* ==========================================================================
+       9. SECTION 3: SYSTEMS & ARCHITECTURES
+       ========================================================================== */
+    .badge-code {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      padding: 0.18rem 0.45rem;
+      border-radius: 3px;
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       10. FOOTER
+       ========================================================================== */
+    footer {
+      margin-top: 3.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .foot-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .foot-left {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    .foot-nav {
+      display: flex;
+      gap: 1.2rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+    }
+
+    .foot-nav a {
+      color: var(--text-muted);
+    }
+
+    .foot-nav a:hover {
+      color: var(--accent);
+    }
+
+    /* Classical Frieze Engraving */
+    .plinth {
+      margin: 2.2rem auto 1rem;
+      width: 100%;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .plinth .art.frieze {
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    }
+
+    /* Theme shortcut hint */
+    .shortcut-hint {
+      text-align: center;
+      margin-top: 1rem;
+      font-family: var(--font-hand);
+      font-variation-settings: "BNCE" 50, "INFM" 60;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+
+    .shortcut-hint kbd {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 0.1rem 0.35rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+    }
+
+    /* ==========================================================================
+       11. INTERACTIVE MONOGRAPH READER MODAL / DRAWER
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: var(--modal-overlay);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 280ms var(--ease), visibility 280ms var(--ease);
+    }
+
+    .modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-sheet {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      max-width: 620px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 2.2rem 2rem;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+      position: relative;
+      transform: translateY(18px) scale(0.98);
+      transition: transform 300ms var(--ease);
+    }
+
+    .modal-backdrop.active .modal-sheet {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.25rem 0.55rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 180ms var(--ease);
+    }
+
+    .modal-close-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .modal-category {
+      font-family: var(--font-hand);
+      font-variation-settings: "BNCE" 45, "INFM" 55;
+      font-size: 0.95rem;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+
+    .modal-title {
+      font-family: var(--font-serif);
+      font-size: 1.7rem;
+      line-height: 1.25;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .modal-meta {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding-bottom: 0.9rem;
+      margin-bottom: 1.2rem;
+      border-bottom: 1px dotted var(--border);
+    }
+
+    .modal-body {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+    }
+
+    .modal-body p {
+      margin-bottom: 1rem;
+    }
+
+    .modal-body h4 {
+      font-family: var(--font-serif);
+      font-size: 1.3rem;
+      color: var(--accent);
+      margin: 1.4rem 0 0.4rem;
+    }
+
+    .modal-body pre {
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      padding: 0.8rem 1rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-primary);
+      overflow-x: auto;
+      margin: 0.8rem 0 1.2rem;
+    }
+
+    .modal-body ul {
+      margin: 0.6rem 0 1.2rem 1.4rem;
+      font-size: 1.05rem;
+    }
+
+    .modal-body li {
+      margin-bottom: 0.4rem;
+    }
+
+    /* ==========================================================================
+       12. RESPONSIVE MEDIA QUERIES
+       ========================================================================== */
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.8rem 1.1rem 3.5rem;
+      }
+
+      header {
+        flex-direction: column;
+        gap: 0.9rem;
+        align-items: flex-start;
+      }
+
+      nav {
+        width: 100%;
+        flex-wrap: wrap;
+        gap: 0.85rem;
+      }
+
+      .bio {
+        font-size: 1.28rem;
+      }
+
+      .facts div {
+        grid-template-columns: 5.6rem 1fr;
+      }
+
+      .build-card {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+
+      .monograph-cover {
+        max-width: 130px;
+        aspect-ratio: 1 / 1.35;
+      }
+
+      ul.rows .row-link {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .foot-bar {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      .modal-sheet {
+        padding: 1.8rem 1.2rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    
+    <!-- HEADER -->
+    <header>
+      <a class="site-title" href="/">gourav</a>
+      <nav>
+        <a href="#writing">writing</a>
+        <a href="#builds">builds</a>
+        <a href="#systems">systems</a>
+        <a href="https://github.com/gouravroy27" target="_blank" rel="noopener noreferrer">github</a>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle theme between suede and paper">
+          theme: <span id="themeLabel" class="badge">suede</span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO SECTION (`whoami`) -->
+      <section class="hero">
+        <div class="hero-art-wrapper">
+          <img class="art hero-banner ink" 
+               src="./assets/art/falling.webp" 
+               alt="Classical engraving depicting celestial mechanics" 
+               onerror="this.src='https://cintu07.github.io/assets/art/falling.webp'"
+               loading="eager" 
+               fetchpriority="high">
+        </div>
+
+        <p class="bio">
+          i'm gourav. i engineer network proxy gateways, low-latency cli utilities, and autonomous agent architectures. this is where i document the systems i build and how they work under the hood.
+        </p>
+
+        <dl class="facts">
+          <div>
+            <dt>focus</dt>
+            <dd>systems &amp; backend engineering, network routing, cli tooling, agentic ai infra</dd>
+          </div>
+          <div>
+            <dt>languages</dt>
+            <dd>go, c++, python, bash, javascript / node.js, java</dd>
+          </div>
+          <div>
+            <dt>environment</dt>
+            <dd>linux (arch / ubuntu), docker, git, neovim, starship</dd>
+          </div>
+          <div>
+            <dt>education</dt>
+            <dd>bca (final year) · the icfai university, raipur</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- MID-PAGE CLASSICAL DIVIDER -->
+      <div class="divider" aria-hidden="true">
+        <img class="art wings ink" 
+             src="./assets/art/wings.webp" 
+             alt="" 
+             onerror="this.src='https://cintu07.github.io/assets/art/wings.webp'"
+             loading="lazy">
+      </div>
+
+      <!-- SECTION 1: WRITING -->
+      <section id="writing">
+        <h2 class="section-label">
+          <span>writing</span>
+          <sup class="counter">4</sup>
+        </h2>
+        
+        <ul class="rows">
+          <li>
+            <button class="row-link" type="button" data-modal="write-1">
+              <span class="title-text">architecting a system 1 &amp; system 2 router for persistent cli agent memory</span>
+              <time class="meta-date">oct, 2026</time>
+            </button>
+          </li>
+          <li>
+            <button class="row-link" type="button" data-modal="write-2">
+              <span class="title-text">automating cross-platform socks5 and pac proxy rotation across browsers in go</span>
+              <time class="meta-date">sep, 2026</time>
+            </button>
+          </li>
+          <li>
+            <button class="row-link" type="button" data-modal="write-3">
+              <span class="title-text">building a zero-bloat server telemetry cli in c++ and go for headless linux</span>
+              <time class="meta-date">sep, 2026</time>
+            </button>
+          </li>
+          <li>
+            <button class="row-link" type="button" data-modal="write-4">
+              <span class="title-text">websocket market feeds and low-latency execution pipelines for algorithmic options</span>
+              <time class="meta-date">aug, 2026</time>
+            </button>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SECTION 2: FEATURED BUILDS -->
+      <section id="builds">
+        <h2 class="section-label">
+          <span>featured builds</span>
+          <sup class="counter">3</sup>
+        </h2>
+
+        <div class="builds-list">
+          <!-- Build 1 -->
+          <article class="build-card">
+            <div class="monograph-cover">
+              <div class="cover-top">
+                <span>VOL. I</span>
+                <span>NET/SEC</span>
+              </div>
+              <div class="cover-title">tor-rotator<br>gateway</div>
+              <div class="cover-bottom">go · v3.0</div>
+            </div>
+            
+            <div class="build-content">
+              <h3>tor-rotator-stealth-gateway v3</h3>
+              <p class="subtitle">cross-platform socks5 &amp; pac proxy routing engine with automated ip rotation across multiple browsers.</p>
+              <p class="meta">2026 · go · networking &amp; privacy</p>
+              <div class="build-actions">
+                <a class="action-link" href="https://github.com/gouravroy27" target="_blank" rel="noopener noreferrer">
+                  source code <span class="tag-bracket">[github]</span>
+                </a>
+                <button class="action-link" type="button" data-modal="build-1-spec">
+                  architecture spec <span class="tag-bracket">[read]</span>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Build 2 -->
+          <article class="build-card">
+            <div class="monograph-cover">
+              <div class="cover-top">
+                <span>VOL. II</span>
+                <span>AI-INFRA</span>
+              </div>
+              <div class="cover-title">antigravity<br>cli router</div>
+              <div class="cover-bottom">go &amp; py · v2.4</div>
+            </div>
+
+            <div class="build-content">
+              <h3>antigravity dual-system cli router</h3>
+              <p class="subtitle">external system 1 fast-heuristic decision router paired with system 2 llm reasoning for persistent cross-session cli memory and autonomous execution.</p>
+              <p class="meta">2026 · go &amp; python · agentic ai infra</p>
+              <div class="build-actions">
+                <a class="action-link" href="https://github.com/gouravroy27" target="_blank" rel="noopener noreferrer">
+                  source code <span class="tag-bracket">[github]</span>
+                </a>
+                <button class="action-link" type="button" data-modal="build-2-spec">
+                  design notes <span class="tag-bracket">[read]</span>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Build 3 -->
+          <article class="build-card">
+            <div class="monograph-cover">
+              <div class="cover-top">
+                <span>VOL. III</span>
+                <span>SYS-OPS</span>
+              </div>
+              <div class="cover-title">server-stats<br>telemetry</div>
+              <div class="cover-bottom">c++ &amp; go</div>
+            </div>
+
+            <div class="build-content">
+              <h3>headless server performance &amp; telemetry cli</h3>
+              <p class="subtitle">lightweight terminal monitoring utility engineered for headless linux environments with real-time resource profiling.</p>
+              <p class="meta">2026 · c++ &amp; go · systems tooling</p>
+              <div class="build-actions">
+                <a class="action-link" href="https://github.com/gouravroy27/Server-Stats" target="_blank" rel="noopener noreferrer">
+                  source code <span class="tag-bracket">[github]</span>
+                </a>
+                <button class="action-link" type="button" data-modal="build-3-spec">
+                  runtime profile <span class="tag-bracket">[read]</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- SECTION 3: SYSTEMS & ARCHITECTURES -->
+      <section id="systems">
+        <h2 class="section-label">
+          <span>systems &amp; architectures</span>
+          <sup class="counter">4</sup>
+        </h2>
+
+        <ul class="rows">
+          <li>
+            <button class="row-link" type="button" data-modal="sys-1">
+              <span class="title-text">Intelligent Document Management &amp; Automated Routing System (KMRL SIH Proposal)</span>
+              <span class="meta-tag badge-code">enterprise-arch</span>
+            </button>
+          </li>
+          <li>
+            <button class="row-link" type="button" data-modal="sys-2">
+              <span class="title-text">Local-First Distributed Storage &amp; Autonomous Agent Execution Runtimes</span>
+              <span class="meta-tag badge-code">distributed-sys</span>
+            </button>
+          </li>
+          <li>
+            <button class="row-link" type="button" data-modal="sys-3">
+              <span class="title-text">Automated Media Processing, Metadata Generation &amp; Scheduled Publishing Pipelines</span>
+              <span class="meta-tag badge-code">automation</span>
+            </button>
+          </li>
+          <li>
+            <button class="row-link" type="button" data-modal="sys-4">
+              <span class="title-text">Custom Linux Desktop Environments, Shell Tooling &amp; Dotfiles Architecture</span>
+              <span class="meta-tag badge-code">linux-systems</span>
+            </button>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="foot-bar">
+        <div class="foot-left">
+          gourav roy · bhilai, in
+        </div>
+        <nav class="foot-nav">
+          <a href="https://github.com/gouravroy27" target="_blank" rel="noopener noreferrer">github</a>
+          <a href="https://www.linkedin.com/in/gourav-roy-479220417/" target="_blank" rel="noopener noreferrer">linkedin</a>
+          <a href="mailto:Gouravroy27062005@gmail.com">email</a>
+        </nav>
+      </div>
+
+      <!-- Classical Frieze Engraving -->
+      <div class="plinth" aria-hidden="true">
+        <img class="art frieze ink" 
+             src="./assets/art/frieze.webp" 
+             alt="" 
+             onerror="this.src='https://cintu07.github.io/assets/art/frieze.webp'"
+             loading="lazy">
+      </div>
+
+      <div class="shortcut-hint">
+        press <kbd>t</kbd> to toggle theme
+      </div>
+    </footer>
+  </div>
+
+  <!-- INTERACTIVE MONOGRAPH READER MODAL -->
+  <div id="monographModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-sheet">
+      <button id="modalClose" class="modal-close-btn" type="button" aria-label="Close modal">
+        close [esc ×]
+      </button>
+      <div id="modalCategory" class="modal-category">monograph note</div>
+      <h3 id="modalTitle" class="modal-title">Monograph Title</h3>
+      <div id="modalMeta" class="modal-meta">october 2026 · systems engineering</div>
+      <div id="modalBody" class="modal-body">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT: THEME TOGGLE & MODAL READER -->
+  <script>
+    (function () {
+      const KEY = "gourav-theme";
+      const root = document.documentElement;
+      const themeBtn = document.getElementById("themeToggle");
+      const themeLabel = document.getElementById("themeLabel");
+      const themeMeta = document.getElementById("theme-color");
+
+      // Update Theme function
+      function setTheme(theme) {
+        root.setAttribute("data-theme", theme);
+        if (themeLabel) themeLabel.textContent = theme;
+        if (themeMeta) themeMeta.setAttribute("content", theme === "suede" ? "#18070b" : "#fbf8f3");
+        try { localStorage.setItem(KEY, theme); } catch (e) {}
+      }
+
+      function toggleTheme() {
+        const current = root.getAttribute("data-theme") || "suede";
+        const next = current === "suede" ? "paper" : "suede";
+        setTheme(next);
+      }
+
+      // Initial label sync
+      const initialTheme = root.getAttribute("data-theme") || "suede";
+      if (themeLabel) themeLabel.textContent = initialTheme;
+
+      if (themeBtn) {
+        themeBtn.addEventListener("click", toggleTheme);
+      }
+
+      // Keyboard shortcut 't' to toggle theme
+      window.addEventListener("keydown", function (e) {
+        if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+        if (e.key === "t" || e.key === "T") {
+          toggleTheme();
+        }
+      });
+
+      // Monograph Database
+      const monographs = {
+        "write-1": {
+          category: "research · cognitive agent architectures",
+          title: "architecting a system 1 & system 2 router for persistent cli agent memory",
+          meta: "oct, 2026 · go, python, sqlite3 wal · latency: <4ms heuristic dispatch",
+          content: `
+            <p>Traditional autonomous coding agents treat every user input as an unbounded reasoning problem, invoking expensive multi-second LLM calls even for deterministic operations like workspace directory queries or repetitive git workflows. This creates massive latency bottlenecks and causes rapid context degradation.</p>
+            <h4>Dual-System Cognitive Routing</h4>
+            <p>We designed a dual-tier dispatch architecture inspired by Kahneman's cognitive model:</p>
+            <ul>
+              <li><strong>System 1 (Reflexive Path):</strong> An in-process Trie cache paired with lightweight local token embeddings executing in Go. Sub-4ms resolution for routine CLI operations, syntax audits, and file lookups without calling remote models.</li>
+              <li><strong>System 2 (Deliberative Path):</strong> Invoked only when ambiguity metrics exceed a calibrated entropy threshold. Chains structured reasoning loops with self-consistency verification and execution checkpoints.</li>
+            </ul>
+            <pre>
+[User Input] 
+    │
+    ▼
+[System 1 Router] ──(Confidence &ge; 0.92)──► [Local Exec / State Cache (<4ms)]
+    │
+    ▼ (Confidence < 0.92)
+[System 2 Deliberator] ───► [Hierarchical Subagents & LLM Tools]
+            </pre>
+            <p>Memory persistence is implemented via SQLite in Write-Ahead-Logging (WAL) mode with memory-mapped I/O, maintaining zero-corruption state across multi-week development sessions.</p>
+          `
+        },
+        "write-2": {
+          category: "networking · privacy & protocol routing",
+          title: "automating cross-platform socks5 and pac proxy rotation across browsers in go",
+          meta: "sep, 2026 · go, socks5, pac daemon, tor control protocol",
+          content: `
+            <p>Automating browser proxy routing across macOS, Linux, and Windows typically breaks due to conflicting registry entries, platform-specific environment variables, and erratic DNS leaks. This monograph details the engineering of a zero-friction local SOCKS5 proxy engine.</p>
+            <h4>Dynamic PAC Daemon Architecture</h4>
+            <p>Rather than relying on static system-wide proxy overrides, the gateway serves a dynamic, in-memory Proxy Auto-Configuration (PAC) script over a local HTTP socket:</p>
+            <ul>
+              <li><strong>Dynamic Circuit Renewal:</strong> Sends <code>AUTHENTICATE</code> and <code>SIGNAL NEWNYM</code> commands over the Tor control port whenever circuit latency degrades or egress blocks are detected.</li>
+              <li><strong>Cross-Browser Integration:</strong> Dispatches platform-native hooks (<code>gsettings</code> on Linux, <code>networksetup</code> on Darwin, and wininet registry keys on Windows) without terminating running browser instances.</li>
+              <li><strong>DNS Leak Prevention:</strong> Enforces SOCKS5h remote DNS resolution to ensure no unencrypted queries escape the encrypted tunnel.</li>
+            </ul>
+          `
+        },
+        "write-3": {
+          category: "systems tooling · headless observability",
+          title: "building a zero-bloat server telemetry cli in c++ and go for headless linux",
+          meta: "sep, 2026 · c++, go, procfs, linux kernel telemetry",
+          content: `
+            <p>Most server monitoring tools (e.g. Prometheus agents, Electron dashboards) consume excessive memory and CPU ticks simply observing the system they are meant to measure. We set out to build a sub-10MB telemetry monitor that operates directly from a headless TTY.</p>
+            <h4>Direct Kernel Interface Sampling</h4>
+            <p>By avoiding child process spawning (<code>fork</code>/<code>exec</code>) and directly parsing <code>/proc/stat</code>, <code>/proc/meminfo</code>, and <code>/proc/net/dev</code> via memory-mapped buffers, CPU consumption remains under 0.2% even at 100ms sample intervals.</p>
+            <pre>
+Kernel /proc buffers ──(mmap read)──► Lock-Free Ring Buffer ──► ANSI Delta Renderer
+   [zero fork/exec]                        [C++20 atomics]           [VT100 escape codes]
+            </pre>
+            <p>The interface renders through raw ANSI escape codes with double-buffering, eliminating terminal flicker entirely over remote SSH connections.</p>
+          `
+        },
+        "write-4": {
+          category: "algorithmic finance · event-driven systems",
+          title: "websocket market feeds and low-latency execution pipelines for algorithmic options",
+          meta: "aug, 2026 · python, c++ extensions, websockets, asyncio",
+          content: `
+            <p>High-frequency option pricing models require processing non-stop tick streams with predictable millisecond latency. Even microsecond stalls during volatile market open auctions can trigger severe execution slippage.</p>
+            <h4>Pipeline Invariants & Circuit Breakers</h4>
+            <ul>
+              <li><strong>Zero-Copy Tick Parsing:</strong> Asynchronous WebSocket frame ingestion decoding raw binary payloads directly into structured memory structs without intermediary JSON overhead.</li>
+              <li><strong>Hardware Timestamping:</strong> Correlating gateway arrival time against internal clock signals to compute feed delay in real time.</li>
+              <li><strong>Automated Risk Invariants:</strong> Hard circuit breakers halt order routing instantly if delta exposure drifts beyond pre-set VaR (Value at Risk) bounds.</li>
+            </ul>
+          `
+        },
+        "build-1-spec": {
+          category: "architecture specification · networking",
+          title: "tor-rotator-stealth-gateway v3 · technical monograph",
+          meta: "2026 · go runtime · cross-platform daemon",
+          content: `
+            <p><code>tor-rotator-stealth-gateway</code> is a hardened local daemon that transforms standard applications and web browsers into rotating stealth network clients.</p>
+            <h4>Core Architecture Highlights</h4>
+            <ul>
+              <li><strong>Automated IP Shuffling:</strong> Configurable interval or event-driven circuit renewal (e.g., auto-switch when receiving HTTP 403 or Cloudflare challenge pages).</li>
+              <li><strong>PAC Engine:</strong> Generates dynamic proxy exclusion rules so intranet and localhost traffic never hit external relays.</li>
+              <li><strong>TLS Fingerprint Masking:</strong> Integrates custom cipher suites to match common browser JA3/JA4 fingerprints.</li>
+            </ul>
+          `
+        },
+        "build-2-spec": {
+          category: "design monograph · agentic infrastructure",
+          title: "antigravity dual-system cli router · architecture & design",
+          meta: "2026 · go & python · distributed persistent memory",
+          content: `
+            <p>The Antigravity CLI Router decouples immediate terminal ergonomics from heavy LLM orchestration, creating a persistent, reliable developer assistant that never forgets past interactions.</p>
+            <h4>System Architecture</h4>
+            <p>The system maintains three persistent tiers:</p>
+            <ul>
+              <li><strong>Working Memory:</strong> Fast RAM cache holding the immediate conversation transcript and file diff buffer.</li>
+              <li><strong>Episodic Log:</strong> Compressed JSONL audit trail recording user commands, shell exits, and tool results.</li>
+              <li><strong>Semantic Knowledge Index:</strong> Vector-embedded code symbols and project conventions indexed in an embedded database.</li>
+            </ul>
+          `
+        },
+        "build-3-spec": {
+          category: "runtime profile · systems telemetry",
+          title: "headless server performance & telemetry cli · runtime profile",
+          meta: "2026 · c++ & go · zero external dependencies",
+          content: `
+            <p>Detailed performance benchmarks on low-spec AWS t4g.nano and bare-metal ARM64 boards:</p>
+            <ul>
+              <li><strong>Memory Footprint:</strong> 6.8 MB RSS under continuous 500ms sampling.</li>
+              <li><strong>Binary Size:</strong> 4.1 MB static binary with all dependencies included.</li>
+              <li><strong>Sampling Overhead:</strong> &lt; 0.15% single-core CPU utilization on 2.4GHz vCPU.</li>
+            </ul>
+          `
+        },
+        "sys-1": {
+          category: "systems & architecture · enterprise proposal",
+          title: "Intelligent Document Management & Automated Routing System (KMRL SIH Proposal)",
+          meta: "enterprise architecture · ocr pipeline · role-based state machines",
+          content: `
+            <p>A comprehensive technical proposal engineered for the Kochi Metro Rail Ltd (KMRL) Smart India Hackathon challenge, designed to digitize thousands of disparate physical and digital enterprise documents.</p>
+            <h4>Architecture Highlights</h4>
+            <ul>
+              <li><strong>Multi-stage OCR & Taxonomy Ingestion:</strong> High-throughput layout analysis pipeline extracting structured metadata from complex railway invoices and compliance reports.</li>
+              <li><strong>Deterministic Workflow State Machines:</strong> Configurable role-based approval graphs with automated SLA escalations.</li>
+              <li><strong>Cryptographic Audit Trails:</strong> SHA-256 chained transaction logs ensuring complete immutability for enterprise audit verification.</li>
+            </ul>
+          `
+        },
+        "sys-2": {
+          category: "systems & architecture · distributed systems",
+          title: "Local-First Distributed Storage & Autonomous Agent Execution Runtimes",
+          meta: "distributed systems · crdt synchronization · edge execution",
+          content: `
+            <p>Research and prototype implementation of a local-first peer-to-peer storage engine for autonomous AI agents operating across decentralized workstations.</p>
+            <ul>
+              <li><strong>State Synchronization:</strong> Conflict-Free Replicated Data Types (CRDTs) enabling seamless multi-device state convergence without a central master node.</li>
+              <li><strong>Cryptographic Authorization:</strong> Public-key Ed25519 signatures protecting all agent state mutations.</li>
+              <li><strong>Zero Cloud Lock-in:</strong> Fully operational in air-gapped environments with opportunistic mesh networking.</li>
+            </ul>
+          `
+        },
+        "sys-3": {
+          category: "systems & architecture · data pipelines",
+          title: "Automated Media Processing, Metadata Generation & Scheduled Publishing Pipelines",
+          meta: "media pipeline · ffmpeg · asynchronous orchestration",
+          content: `
+            <p>A resilient headless ingestion and publishing pipeline handling automated transcoding, audio waveform extraction, and cross-platform media dispatch.</p>
+            <ul>
+              <li><strong>Hardware-Accelerated Encoding:</strong> Dynamic fallback across NVENC, VAAPI, and CPU libx264 based on host capabilities.</li>
+              <li><strong>Audio-to-Text Alignment:</strong> Automated transcription generating chapter timestamps and search indices.</li>
+              <li><strong>Job Queue Resilience:</strong> Atomic file locks and SQLite task queues ensuring zero duplicate publishes upon process recovery.</li>
+            </ul>
+          `
+        },
+        "sys-4": {
+          category: "systems & architecture · linux environments",
+          title: "Custom Linux Desktop Environments, Shell Tooling & Dotfiles Architecture",
+          meta: "linux systems · wayland / x11 · shell optimization",
+          content: `
+            <p>A modular, reproducibly configured Unix workstation ecosystem designed for extreme developer ergonomics and low latency.</p>
+            <ul>
+              <li><strong>Compositor Architecture:</strong> Custom Hyprland and i3wm configs with bespoke keybindings and window rules.</li>
+              <li><strong>Sub-Millisecond Shell Startup:</strong> Heavily profiled Zsh / Bash initialization leveraging compiled Starship prompts and lazy plugin loading.</li>
+              <li><strong>Declarative Dotfiles:</strong> Automated bootstrapping via symlink managers and Ansible playbooks for zero-friction laptop provisioning.</li>
+            </ul>
+          `
+        }
+      };
+
+      // Modal Elements
+      const modal = document.getElementById("monographModal");
+      const modalClose = document.getElementById("modalClose");
+      const modalCat = document.getElementById("modalCategory");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalMeta = document.getElementById("modalMeta");
+      const modalBody = document.getElementById("modalBody");
+
+      function openModal(id) {
+        const item = monographs[id];
+        if (!item) return;
+
+        modalCat.textContent = item.category;
+        modalTitle.textContent = item.title;
+        modalMeta.textContent = item.meta;
+        modalBody.innerHTML = item.content;
+
+        modal.classList.add("active");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        modal.classList.remove("active");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+
+      // Trigger buttons
+      document.querySelectorAll("[data-modal]").forEach(button => {
+        button.addEventListener("click", () => {
+          const id = button.getAttribute("data-modal");
+          openModal(id);
+        });
+      });
+
+      if (modalClose) {
+        modalClose.addEventListener("click", closeModal);
+      }
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.classList.contains("active")) {
+          closeModal();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
