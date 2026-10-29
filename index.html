@@ -6,8 +6,8 @@
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" id="theme-color" content="#18070b">
 
-  <title>gourav roy · systems & monographs</title>
-  <meta name="description" content="personal monograph and systems portfolio of gourav roy: multi-service docker architectures, network proxy gateways, and headless linux telemetry utilities.">
+  <title>Gourav Roy · systems & monographs</title>
+  <meta name="description" content="Personal site and technical monograph of Gourav Roy — I build multi-service Docker architectures, network proxy engines, and low-latency CLI tools for headless Linux environments.">
   <link rel="canonical" href="https://gouravroy27.github.io/">
 
   <!-- Google Fonts: Instrument Serif, JetBrains Mono, Shantell Sans with Variable Axes -->
@@ -239,6 +239,11 @@
       max-height: 340px;
       object-fit: cover;
       object-position: center 25%;
+      filter: brightness(0.82) saturate(0.6) contrast(1.1);
+      transition: filter 300ms var(--ease);
+    }
+    [data-theme="paper"] .hero-banner {
+      filter: brightness(0.7) saturate(0.2) contrast(1.15) sepia(20%);
     }
 
     /* Intro Bio Paragraph */
@@ -293,9 +298,15 @@
     }
 
     .divider .art.wings {
-      max-width: min(100%, 28rem);
-      height: auto;
-      opacity: 0.75;
+      max-width: 100%;
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      object-position: center 40%;
+      opacity: 0.55;
+      border-radius: 2px;
+      -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+      mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
     }
 
     /* ==========================================================================
@@ -864,44 +875,44 @@
       <!-- HERO SECTION (`whoami`) -->
       <section class="hero">
         <div class="hero-art-wrapper">
-          <img class="art hero-banner ink" 
-               src="./assets/art/falling.webp" 
-               alt="Classical engraving depicting celestial mechanics" 
-               onerror="this.src='https://cintu07.github.io/assets/art/falling.webp'"
+          <img class="art hero-banner" 
+               src="./assets/art/hero.webp" 
+               alt="Deep space — dark cosmos photograph" 
+               onerror="this.src='https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1200&h=360&auto=format&fit=crop&q=85'"
                loading="eager" 
                fetchpriority="high">
         </div>
 
         <p class="bio">
-          i'm gourav. i engineer multi-service container architectures, network proxy routing engines, and low-latency cli utilities. this is where i document the systems i build and how they work under the hood.
+          hey, I'm Gourav — a systems engineer who finds it hard to stop at "just make it work." I build multi-service container stacks, network proxy engines, and zero-overhead CLI tools for headless Linux environments. This is where I write down what I built, why I built it, and what broke along the way.
         </p>
 
         <dl class="facts">
           <div>
             <dt>focus</dt>
-            <dd>systems &amp; backend engineering, docker infrastructure, network routing, cli tooling</dd>
+            <dd>systems engineering, Docker infra, network routing, CLI tooling</dd>
           </div>
           <div>
             <dt>languages</dt>
-            <dd>go, c++, python, bash, javascript / node.js, java</dd>
+            <dd>Go, C++, Python, Bash, JavaScript / Node.js, Java</dd>
           </div>
           <div>
             <dt>environment</dt>
-            <dd>linux (arch / ubuntu), docker, git, neovim, starship</dd>
+            <dd>Linux (Arch / Ubuntu), Docker, Git, Neovim, Starship</dd>
           </div>
           <div>
             <dt>education</dt>
-            <dd>bca (final year) · the icfai university, raipur</dd>
+            <dd>BCA (Final Year) · The ICFAI University, Raipur</dd>
           </div>
         </dl>
       </section>
 
       <!-- MID-PAGE CLASSICAL DIVIDER -->
       <div class="divider" aria-hidden="true">
-        <img class="art wings ink" 
-             src="./assets/art/wings.webp" 
+        <img class="art wings" 
+             src="./assets/art/divider.webp" 
              alt="" 
-             onerror="this.src='https://cintu07.github.io/assets/art/wings.webp'"
+             onerror="this.src='https://images.unsplash.com/photo-1464278533981-50106e6176b1?w=900&h=100&auto=format&fit=crop&q=80'"
              loading="lazy">
       </div>
 
@@ -915,25 +926,25 @@
         <ul class="rows">
           <li>
             <button class="row-link" type="button" data-modal="write-1">
-              <span class="title-text">zero-trust multi-container reverse proxy topologies with docker compose &amp; nginx</span>
+              <span class="title-text">zero-trust multi-container reverse proxy topologies with Docker Compose &amp; Nginx</span>
               <time class="meta-date">oct, 2026</time>
             </button>
           </li>
           <li>
             <button class="row-link" type="button" data-modal="write-2">
-              <span class="title-text">automating cross-platform socks5 and pac proxy rotation across browsers in go</span>
+              <span class="title-text">automating cross-platform SOCKS5 and PAC proxy rotation across browsers in Go</span>
               <time class="meta-date">sep, 2026</time>
             </button>
           </li>
           <li>
             <button class="row-link" type="button" data-modal="write-3">
-              <span class="title-text">building a zero-bloat server telemetry cli in c++ and go for headless linux</span>
+              <span class="title-text">building a zero-bloat server telemetry CLI in C++ and Go for headless Linux</span>
               <time class="meta-date">sep, 2026</time>
             </button>
           </li>
           <li>
             <button class="row-link" type="button" data-modal="write-4">
-              <span class="title-text">websocket market feeds and low-latency execution pipelines for algorithmic options</span>
+              <span class="title-text">WebSocket market feeds and low-latency execution pipelines for algorithmic options</span>
               <time class="meta-date">aug, 2026</time>
             </button>
           </li>
@@ -961,8 +972,8 @@
 
             <div class="build-content">
               <h3>headless server performance &amp; telemetry cli</h3>
-              <p class="subtitle">lightweight terminal monitoring utility engineered for headless linux environments with real-time resource profiling and zero-overhead procfs sampling.</p>
-              <p class="meta">2026 · c++ &amp; go · systems tooling · <span class="live-tag">● live on github</span></p>
+              <p class="subtitle">I got tired of heavyweight dashboards eating the very CPU they're supposed to measure. So I built this — a slim binary that reads directly from kernel procfs and renders deltas in your terminal with no flicker and under 0.2% CPU overhead.</p>
+              <p class="meta">2026 · C++ &amp; Go · Systems Tooling · <span class="live-tag">● live on GitHub</span></p>
               <div class="build-actions">
                 <a class="action-link" href="https://github.com/gouravroy27/Server-Stats" target="_blank" rel="noopener noreferrer">
                   source code <span class="tag-bracket">[github]</span>
@@ -987,8 +998,8 @@
 
             <div class="build-content">
               <h3>taskflow — multi-service docker architecture</h3>
-              <p class="subtitle">production-grade multi-service container orchestration with react 19, node.js 24 express api, mysql 8, redis caching, and an isolated nginx reverse proxy.</p>
-              <p class="meta">2026 · docker, node.js, redis, mysql, nginx · <span class="wip-tag">under work · push pending</span></p>
+              <p class="subtitle">A full-stack task manager I architected mainly to nail proper Docker networking — one exposed port, isolated internal bridges, dependency healthchecks, and zero host pollution. Still actively running locally.</p>
+              <p class="meta">2026 · Docker, Node.js, Redis, MySQL, Nginx · <span class="wip-tag">under work — push pending</span></p>
               <div class="build-actions">
                 <button class="action-link" type="button" data-modal="build-2-spec">
                   architecture spec <span class="tag-bracket">[read]</span>
@@ -1011,8 +1022,8 @@
             
             <div class="build-content">
               <h3>tor-rotator-stealth-gateway v3</h3>
-              <p class="subtitle">cross-platform socks5 &amp; pac proxy routing engine with automated ip rotation across multiple browsers.</p>
-              <p class="meta">2026 · go · networking &amp; privacy · <span class="wip-tag">under work · in development</span></p>
+              <p class="subtitle">A local daemon that handles automatic IP rotation through Tor circuits, serves a live PAC script to any browser, and prevents DNS leaks — all without restarting the browser or touching system settings beyond what's needed.</p>
+              <p class="meta">2026 · Go · Networking &amp; Privacy · <span class="wip-tag">in progress — not published yet</span></p>
               <div class="build-actions">
                 <button class="action-link" type="button" data-modal="build-1-spec">
                   architecture spec <span class="tag-bracket">[read]</span>
@@ -1064,7 +1075,7 @@
     <footer>
       <div class="foot-bar">
         <div class="foot-left">
-          gourav roy · bhilai, in
+          Gourav Roy · Bhilai, IN
         </div>
         <nav class="foot-nav">
           <a href="https://github.com/gouravroy27" target="_blank" rel="noopener noreferrer">github</a>
