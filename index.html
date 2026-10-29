@@ -7,7 +7,7 @@
   <meta name="theme-color" id="theme-color" content="#18070b">
 
   <title>gourav roy · systems & monographs</title>
-  <meta name="description" content="personal monograph and systems portfolio of gourav roy: network proxy gateways, low-latency cli utilities, and autonomous agent architectures.">
+  <meta name="description" content="personal monograph and systems portfolio of gourav roy: multi-service docker architectures, network proxy gateways, and headless linux telemetry utilities.">
   <link rel="canonical" href="https://gouravroy27.github.io/">
 
   <!-- Google Fonts: Instrument Serif, JetBrains Mono, Shantell Sans with Variable Axes -->
@@ -535,6 +535,35 @@
       font-size: 0.75rem;
     }
 
+    /* Work In Progress / Under Work Badge */
+    .wip-tag {
+      font-family: var(--font-hand);
+      font-variation-settings: "BNCE" 45, "INFM" 60;
+      font-size: 0.85rem;
+      color: var(--accent);
+      background: var(--tag-bg);
+      border: 1px dashed var(--border-strong);
+      padding: 0.15rem 0.5rem;
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      user-select: none;
+    }
+
+    .live-tag {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #51cf66;
+      background: rgba(81, 207, 102, 0.1);
+      border: 1px solid rgba(81, 207, 102, 0.25);
+      padding: 0.12rem 0.45rem;
+      border-radius: 3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
     /* ==========================================================================
        9. SECTION 3: SYSTEMS & ARCHITECTURES
        ========================================================================== */
@@ -740,6 +769,7 @@
       color: var(--text-primary);
       overflow-x: auto;
       margin: 0.8rem 0 1.2rem;
+      line-height: 1.45;
     }
 
     .modal-body ul {
@@ -843,13 +873,13 @@
         </div>
 
         <p class="bio">
-          i'm gourav. i engineer network proxy gateways, low-latency cli utilities, and autonomous agent architectures. this is where i document the systems i build and how they work under the hood.
+          i'm gourav. i engineer multi-service container architectures, network proxy routing engines, and low-latency cli utilities. this is where i document the systems i build and how they work under the hood.
         </p>
 
         <dl class="facts">
           <div>
             <dt>focus</dt>
-            <dd>systems &amp; backend engineering, network routing, cli tooling, agentic ai infra</dd>
+            <dd>systems &amp; backend engineering, docker infrastructure, network routing, cli tooling</dd>
           </div>
           <div>
             <dt>languages</dt>
@@ -885,7 +915,7 @@
         <ul class="rows">
           <li>
             <button class="row-link" type="button" data-modal="write-1">
-              <span class="title-text">architecting a system 1 &amp; system 2 router for persistent cli agent memory</span>
+              <span class="title-text">zero-trust multi-container reverse proxy topologies with docker compose &amp; nginx</span>
               <time class="meta-date">oct, 2026</time>
             </button>
           </li>
@@ -918,11 +948,61 @@
         </h2>
 
         <div class="builds-list">
-          <!-- Build 1 -->
+          <!-- Build 1: Server-Stats (Live on GitHub) -->
           <article class="build-card">
             <div class="monograph-cover">
               <div class="cover-top">
                 <span>VOL. I</span>
+                <span>SYS-OPS</span>
+              </div>
+              <div class="cover-title">Server-Stats<br>telemetry</div>
+              <div class="cover-bottom">c++ &amp; go</div>
+            </div>
+
+            <div class="build-content">
+              <h3>headless server performance &amp; telemetry cli</h3>
+              <p class="subtitle">lightweight terminal monitoring utility engineered for headless linux environments with real-time resource profiling and zero-overhead procfs sampling.</p>
+              <p class="meta">2026 · c++ &amp; go · systems tooling · <span class="live-tag">● live on github</span></p>
+              <div class="build-actions">
+                <a class="action-link" href="https://github.com/gouravroy27/Server-Stats" target="_blank" rel="noopener noreferrer">
+                  source code <span class="tag-bracket">[github]</span>
+                </a>
+                <button class="action-link" type="button" data-modal="build-3-spec">
+                  runtime profile <span class="tag-bracket">[read]</span>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Build 2: TaskFlow Docker Architecture (Under Work / Local Build) -->
+          <article class="build-card">
+            <div class="monograph-cover">
+              <div class="cover-top">
+                <span>VOL. II</span>
+                <span>DEVOPS</span>
+              </div>
+              <div class="cover-title">taskflow<br>docker-arch</div>
+              <div class="cover-bottom">docker compose</div>
+            </div>
+
+            <div class="build-content">
+              <h3>taskflow — multi-service docker architecture</h3>
+              <p class="subtitle">production-grade multi-service container orchestration with react 19, node.js 24 express api, mysql 8, redis caching, and an isolated nginx reverse proxy.</p>
+              <p class="meta">2026 · docker, node.js, redis, mysql, nginx · <span class="wip-tag">under work · push pending</span></p>
+              <div class="build-actions">
+                <button class="action-link" type="button" data-modal="build-2-spec">
+                  architecture spec <span class="tag-bracket">[read]</span>
+                </button>
+                <span class="wip-tag">[actively developing locally]</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Build 3: tor-rotator-stealth-gateway (Under Work / In Progress) -->
+          <article class="build-card">
+            <div class="monograph-cover">
+              <div class="cover-top">
+                <span>VOL. III</span>
                 <span>NET/SEC</span>
               </div>
               <div class="cover-title">tor-rotator<br>gateway</div>
@@ -932,66 +1012,12 @@
             <div class="build-content">
               <h3>tor-rotator-stealth-gateway v3</h3>
               <p class="subtitle">cross-platform socks5 &amp; pac proxy routing engine with automated ip rotation across multiple browsers.</p>
-              <p class="meta">2026 · go · networking &amp; privacy</p>
+              <p class="meta">2026 · go · networking &amp; privacy · <span class="wip-tag">under work · in development</span></p>
               <div class="build-actions">
-                <a class="action-link" href="https://github.com/gouravroy27" target="_blank" rel="noopener noreferrer">
-                  source code <span class="tag-bracket">[github]</span>
-                </a>
                 <button class="action-link" type="button" data-modal="build-1-spec">
                   architecture spec <span class="tag-bracket">[read]</span>
                 </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Build 2 -->
-          <article class="build-card">
-            <div class="monograph-cover">
-              <div class="cover-top">
-                <span>VOL. II</span>
-                <span>AI-INFRA</span>
-              </div>
-              <div class="cover-title">antigravity<br>cli router</div>
-              <div class="cover-bottom">go &amp; py · v2.4</div>
-            </div>
-
-            <div class="build-content">
-              <h3>antigravity dual-system cli router</h3>
-              <p class="subtitle">external system 1 fast-heuristic decision router paired with system 2 llm reasoning for persistent cross-session cli memory and autonomous execution.</p>
-              <p class="meta">2026 · go &amp; python · agentic ai infra</p>
-              <div class="build-actions">
-                <a class="action-link" href="https://github.com/gouravroy27" target="_blank" rel="noopener noreferrer">
-                  source code <span class="tag-bracket">[github]</span>
-                </a>
-                <button class="action-link" type="button" data-modal="build-2-spec">
-                  design notes <span class="tag-bracket">[read]</span>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Build 3 -->
-          <article class="build-card">
-            <div class="monograph-cover">
-              <div class="cover-top">
-                <span>VOL. III</span>
-                <span>SYS-OPS</span>
-              </div>
-              <div class="cover-title">server-stats<br>telemetry</div>
-              <div class="cover-bottom">c++ &amp; go</div>
-            </div>
-
-            <div class="build-content">
-              <h3>headless server performance &amp; telemetry cli</h3>
-              <p class="subtitle">lightweight terminal monitoring utility engineered for headless linux environments with real-time resource profiling.</p>
-              <p class="meta">2026 · c++ &amp; go · systems tooling</p>
-              <div class="build-actions">
-                <a class="action-link" href="https://github.com/gouravroy27/Server-Stats" target="_blank" rel="noopener noreferrer">
-                  source code <span class="tag-bracket">[github]</span>
-                </a>
-                <button class="action-link" type="button" data-modal="build-3-spec">
-                  runtime profile <span class="tag-bracket">[read]</span>
-                </button>
+                <span class="wip-tag">[in progress · not yet published]</span>
               </div>
             </div>
           </article>
@@ -1009,25 +1035,25 @@
           <li>
             <button class="row-link" type="button" data-modal="sys-1">
               <span class="title-text">Intelligent Document Management &amp; Automated Routing System (KMRL SIH Proposal)</span>
-              <span class="meta-tag badge-code">enterprise-arch</span>
+              <span class="meta-tag badge-code">enterprise-arch · proposal</span>
             </button>
           </li>
           <li>
             <button class="row-link" type="button" data-modal="sys-2">
-              <span class="title-text">Local-First Distributed Storage &amp; Autonomous Agent Execution Runtimes</span>
-              <span class="meta-tag badge-code">distributed-sys</span>
+              <span class="title-text">Local-First Distributed Storage &amp; Peer Synchronization Runtimes</span>
+              <span class="meta-tag badge-code">distributed-sys · wip</span>
             </button>
           </li>
           <li>
             <button class="row-link" type="button" data-modal="sys-3">
               <span class="title-text">Automated Media Processing, Metadata Generation &amp; Scheduled Publishing Pipelines</span>
-              <span class="meta-tag badge-code">automation</span>
+              <span class="meta-tag badge-code">automation · in-progress</span>
             </button>
           </li>
           <li>
             <button class="row-link" type="button" data-modal="sys-4">
               <span class="title-text">Custom Linux Desktop Environments, Shell Tooling &amp; Dotfiles Architecture</span>
-              <span class="meta-tag badge-code">linux-systems</span>
+              <span class="meta-tag badge-code">linux-systems · active</span>
             </button>
           </li>
         </ul>
@@ -1119,27 +1145,35 @@
       // Monograph Database
       const monographs = {
         "write-1": {
-          category: "research · cognitive agent architectures",
-          title: "architecting a system 1 & system 2 router for persistent cli agent memory",
-          meta: "oct, 2026 · go, python, sqlite3 wal · latency: <4ms heuristic dispatch",
+          category: "systems & devops · container architecture",
+          title: "zero-trust multi-container reverse proxy topologies with docker compose & nginx",
+          meta: "oct, 2026 · docker, nginx 1.27, node.js 24, redis 8, mysql 8",
           content: `
-            <p>Traditional autonomous coding agents treat every user input as an unbounded reasoning problem, invoking expensive multi-second LLM calls even for deterministic operations like workspace directory queries or repetitive git workflows. This creates massive latency bottlenecks and causes rapid context degradation.</p>
-            <h4>Dual-System Cognitive Routing</h4>
-            <p>We designed a dual-tier dispatch architecture inspired by Kahneman's cognitive model:</p>
-            <ul>
-              <li><strong>System 1 (Reflexive Path):</strong> An in-process Trie cache paired with lightweight local token embeddings executing in Go. Sub-4ms resolution for routine CLI operations, syntax audits, and file lookups without calling remote models.</li>
-              <li><strong>System 2 (Deliberative Path):</strong> Invoked only when ambiguity metrics exceed a calibrated entropy threshold. Chains structured reasoning loops with self-consistency verification and execution checkpoints.</li>
-            </ul>
+            <p>Deploying multi-tier web applications often leads to accidental exposure of internal database ports or unauthenticated service interfaces. In production-grade container engineering, the host should strictly expose a single ingress point.</p>
+            <h4>Isolated Network Segmentation</h4>
+            <p>In our architecture, the Nginx reverse proxy is the <em>only</em> service binding to host port <code>80</code>. All other services (React frontend, Node.js API, Redis cache, and MySQL) communicate exclusively over an isolated internal Docker network with strict DNS aliasing:</p>
             <pre>
-[User Input] 
-    │
-    ▼
-[System 1 Router] ──(Confidence &ge; 0.92)──► [Local Exec / State Cache (<4ms)]
-    │
-    ▼ (Confidence < 0.92)
-[System 2 Deliberator] ───► [Hierarchical Subagents & LLM Tools]
+                               ┌────────────────┐
+                               │  Host Traffic  │
+                               └───────┬────────┘
+                                       │  :80 (only exposed port)
+                               ┌───────▼────────┐
+                               │ reverse-proxy  │  (Nginx 1.27)
+                               └───┬────────┬───┘
+                                   │        │
+                   (path: "/")     │        │  (path: "/api/*")
+               ┌───────────────────▼──┐  ┌──▼──────────────────┐
+               │  taskflow-frontend   │  │    taskflow-api     │
+               │  (React 19 / Vite)   │  │ (Node 24 / Express) │
+               └──────────────────────┘  └──┬───────────────┬──┘
+                                            │               │
+                                    ┌───────▼──────┐ ┌──────▼──────┐
+                                    │    redis     │ │    mysql    │
+                                    │ (cache :6379)│ │ (store:3306)│
+                                    └──────────────┘ └─────────────┘
             </pre>
-            <p>Memory persistence is implemented via SQLite in Write-Ahead-Logging (WAL) mode with memory-mapped I/O, maintaining zero-corruption state across multi-week development sessions.</p>
+            <h4>Healthcheck Orchestration</h4>
+            <p>To eliminate race conditions on boot, services declare granular dependency healthchecks: the Express API container defers execution until MySQL passes <code>mysqladmin ping</code> and Redis responds to <code>redis-cli ping</code>.</p>
           `
         },
         "write-2": {
@@ -1189,9 +1223,10 @@ Kernel /proc buffers ──(mmap read)──► Lock-Free Ring Buffer ──► 
         "build-1-spec": {
           category: "architecture specification · networking",
           title: "tor-rotator-stealth-gateway v3 · technical monograph",
-          meta: "2026 · go runtime · cross-platform daemon",
+          meta: "2026 · go runtime · status: under work / in progress",
           content: `
-            <p><code>tor-rotator-stealth-gateway</code> is a hardened local daemon that transforms standard applications and web browsers into rotating stealth network clients.</p>
+            <p><code>tor-rotator-stealth-gateway</code> is an experimental local daemon that transforms standard applications and web browsers into rotating stealth network clients.</p>
+            <p><em>Notice: This project is actively being developed locally and has not yet been pushed to public GitHub.</em></p>
             <h4>Core Architecture Highlights</h4>
             <ul>
               <li><strong>Automated IP Shuffling:</strong> Configurable interval or event-driven circuit renewal (e.g., auto-switch when receiving HTTP 403 or Cloudflare challenge pages).</li>
@@ -1201,42 +1236,44 @@ Kernel /proc buffers ──(mmap read)──► Lock-Free Ring Buffer ──► 
           `
         },
         "build-2-spec": {
-          category: "design monograph · agentic infrastructure",
-          title: "antigravity dual-system cli router · architecture & design",
-          meta: "2026 · go & python · distributed persistent memory",
+          category: "architecture specification · devops & container systems",
+          title: "taskflow — advanced multi-service docker architecture",
+          meta: "2026 · docker compose, node.js 24, redis 8, mysql 8, nginx 1.27 · status: local build",
           content: `
-            <p>The Antigravity CLI Router decouples immediate terminal ergonomics from heavy LLM orchestration, creating a persistent, reliable developer assistant that never forgets past interactions.</p>
-            <h4>System Architecture</h4>
-            <p>The system maintains three persistent tiers:</p>
+            <p><code>TaskFlow</code> is a production-grade multi-service containerized architecture built to demonstrate zero-trust Docker networking, deterministic dependency healthchecks, and isolated ingress routing.</p>
+            <p><em>Notice: This project is running and tested locally in Docker containers; git push to public GitHub is currently pending.</em></p>
+            <h4>Service Breakdown</h4>
             <ul>
-              <li><strong>Working Memory:</strong> Fast RAM cache holding the immediate conversation transcript and file diff buffer.</li>
-              <li><strong>Episodic Log:</strong> Compressed JSONL audit trail recording user commands, shell exits, and tool results.</li>
-              <li><strong>Semantic Knowledge Index:</strong> Vector-embedded code symbols and project conventions indexed in an embedded database.</li>
+              <li><strong>Nginx Ingress (Port 80):</strong> The only port exposed to the host system. Routes frontend assets and proxies <code>/api/*</code> traffic to the backend cluster.</li>
+              <li><strong>API Gateway (Node.js 24):</strong> Managed by <code>tini</code> process reaper for signal handling, utilizing <code>mysql2</code> connection pools and Valkey/Redis cache layers.</li>
+              <li><strong>Database Tier (MySQL 8.0 &amp; Redis 8):</strong> Bound to private internal Docker bridges with healthcheck guards preventing race conditions on startup.</li>
+              <li><strong>Frontend (React 19 &amp; Vite):</strong> Compiles to static assets served with HTTP caching headers.</li>
             </ul>
           `
         },
         "build-3-spec": {
           category: "runtime profile · systems telemetry",
           title: "headless server performance & telemetry cli · runtime profile",
-          meta: "2026 · c++ & go · zero external dependencies",
+          meta: "2026 · c++ & go · public repository on github",
           content: `
-            <p>Detailed performance benchmarks on low-spec AWS t4g.nano and bare-metal ARM64 boards:</p>
+            <p>Detailed performance benchmarks of the <code>Server-Stats</code> tool on low-spec AWS t4g.nano and bare-metal ARM64 boards:</p>
             <ul>
               <li><strong>Memory Footprint:</strong> 6.8 MB RSS under continuous 500ms sampling.</li>
-              <li><strong>Binary Size:</strong> 4.1 MB static binary with all dependencies included.</li>
+              <li><strong>Binary Size:</strong> 4.1 MB static binary with zero external shared library dependencies.</li>
               <li><strong>Sampling Overhead:</strong> &lt; 0.15% single-core CPU utilization on 2.4GHz vCPU.</li>
+              <li><strong>Repository:</strong> Available publicly at <a href="https://github.com/gouravroy27/Server-Stats" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: underline;">gouravroy27/Server-Stats</a>.</li>
             </ul>
           `
         },
         "sys-1": {
           category: "systems & architecture · enterprise proposal",
           title: "Intelligent Document Management & Automated Routing System (KMRL SIH Proposal)",
-          meta: "enterprise architecture · ocr pipeline · role-based state machines",
+          meta: "enterprise architecture · ocr pipeline · role-based state machines · proposal status",
           content: `
             <p>A comprehensive technical proposal engineered for the Kochi Metro Rail Ltd (KMRL) Smart India Hackathon challenge, designed to digitize thousands of disparate physical and digital enterprise documents.</p>
             <h4>Architecture Highlights</h4>
             <ul>
-              <li><strong>Multi-stage OCR & Taxonomy Ingestion:</strong> High-throughput layout analysis pipeline extracting structured metadata from complex railway invoices and compliance reports.</li>
+              <li><strong>Multi-stage OCR &amp; Taxonomy Ingestion:</strong> High-throughput layout analysis pipeline extracting structured metadata from complex railway invoices and compliance reports.</li>
               <li><strong>Deterministic Workflow State Machines:</strong> Configurable role-based approval graphs with automated SLA escalations.</li>
               <li><strong>Cryptographic Audit Trails:</strong> SHA-256 chained transaction logs ensuring complete immutability for enterprise audit verification.</li>
             </ul>
@@ -1244,13 +1281,13 @@ Kernel /proc buffers ──(mmap read)──► Lock-Free Ring Buffer ──► 
         },
         "sys-2": {
           category: "systems & architecture · distributed systems",
-          title: "Local-First Distributed Storage & Autonomous Agent Execution Runtimes",
-          meta: "distributed systems · crdt synchronization · edge execution",
+          title: "Local-First Distributed Storage & Peer Synchronization Runtimes",
+          meta: "distributed systems · crdt synchronization · peer networking · in research",
           content: `
-            <p>Research and prototype implementation of a local-first peer-to-peer storage engine for autonomous AI agents operating across decentralized workstations.</p>
+            <p>Research and prototype implementation of a local-first peer-to-peer storage engine operating across decentralized developer workstations.</p>
             <ul>
               <li><strong>State Synchronization:</strong> Conflict-Free Replicated Data Types (CRDTs) enabling seamless multi-device state convergence without a central master node.</li>
-              <li><strong>Cryptographic Authorization:</strong> Public-key Ed25519 signatures protecting all agent state mutations.</li>
+              <li><strong>Cryptographic Authorization:</strong> Public-key Ed25519 signatures protecting all state mutations.</li>
               <li><strong>Zero Cloud Lock-in:</strong> Fully operational in air-gapped environments with opportunistic mesh networking.</li>
             </ul>
           `
@@ -1258,7 +1295,7 @@ Kernel /proc buffers ──(mmap read)──► Lock-Free Ring Buffer ──► 
         "sys-3": {
           category: "systems & architecture · data pipelines",
           title: "Automated Media Processing, Metadata Generation & Scheduled Publishing Pipelines",
-          meta: "media pipeline · ffmpeg · asynchronous orchestration",
+          meta: "media pipeline · ffmpeg · asynchronous orchestration · in progress",
           content: `
             <p>A resilient headless ingestion and publishing pipeline handling automated transcoding, audio waveform extraction, and cross-platform media dispatch.</p>
             <ul>
@@ -1271,7 +1308,7 @@ Kernel /proc buffers ──(mmap read)──► Lock-Free Ring Buffer ──► 
         "sys-4": {
           category: "systems & architecture · linux environments",
           title: "Custom Linux Desktop Environments, Shell Tooling & Dotfiles Architecture",
-          meta: "linux systems · wayland / x11 · shell optimization",
+          meta: "linux systems · wayland / x11 · shell optimization · active configuration",
           content: `
             <p>A modular, reproducibly configured Unix workstation ecosystem designed for extreme developer ergonomics and low latency.</p>
             <ul>
