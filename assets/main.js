@@ -103,17 +103,18 @@ Kernel /proc buffers ──(mmap read)──► Lock-Free Ring Buffer ──► 
       `
     },
     "build-1-spec": {
-      category: "architecture specification · networking",
-      title: "tor-rotator-stealth-gateway v3 · technical monograph",
-      meta: "2026 · Go runtime · status: under work / in progress",
+      category: "architecture specification · networking & systems",
+      title: "proxy-rotator — high-concurrency socks5 gateway & scanner",
+      meta: "2026 · Go 1.21+, Python 3.10+ · status: live on github",
       content: `
-        <p><code>tor-rotator-stealth-gateway</code> is an experimental local daemon that transforms standard applications and web browsers into rotating stealth network clients.</p>
-        <p><em>Notice: This project is actively being developed locally and has not yet been pushed to public GitHub.</em></p>
+        <p><code>proxy-rotator</code> is a local SOCKS5 proxy daemon written in Go that pools, health-checks, and round-robins outbound TCP connections across validated upstream proxies (SOCKS5, SOCKS4, and HTTP CONNECT).</p>
+        <p><em>Published on GitHub: <a href="https://github.com/gouravroy27/proxy-rotator" target="_blank" rel="noopener noreferrer" style="color:var(--text-main);text-decoration:underline;">github.com/gouravroy27/proxy-rotator</a></em></p>
         <h4>Core Architecture Highlights</h4>
         <ul>
-          <li><strong>Automated IP Shuffling:</strong> Configurable interval or event-driven circuit renewal (e.g., auto-switch when receiving HTTP 403 or Cloudflare challenge pages).</li>
-          <li><strong>PAC Engine:</strong> Generates dynamic proxy exclusion rules so intranet and localhost traffic never hit external relays.</li>
-          <li><strong>TLS Fingerprint Masking:</strong> Integrates custom cipher suites to match common browser JA3/JA4 fingerprints.</li>
+          <li><strong>Zero-Byte Truncation Fix:</strong> Buffered reader wrapper guarantees HTTP CONNECT headers never eat into the initial bytes of client TLS client hellos.</li>
+          <li><strong>RFC 1928 ATYP Address Draining:</strong> Correctly frames bound IPv4, IPv6, and domain name addresses returned by upstream SOCKS5 servers rather than hardcoding 10-byte assumptions.</li>
+          <li><strong>Half-Close TCP Relaying:</strong> Uses <code>CloseWrite()</code> on bidirectional TCP streams, preserving keep-alive sessions and preventing abrupt connection drops.</li>
+          <li><strong>Strict SSL Scanner:</strong> Python scanner verifies TLS certificates against authentic CA stores before admitting public proxies into the rotation pool, eliminating <code>MOZILLA_PKIX_ERROR_MITM_DETECTED</code> warnings.</li>
         </ul>
       `
     },
